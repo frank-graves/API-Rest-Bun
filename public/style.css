@@ -1,0 +1,121 @@
+/* Estética Hacker/Terminal - Cero gradientes, cero fuentes externas */
+:root {
+    --bg: #0d0d0d;
+    --surface: #1a1a1a;
+    --text: #e0e0e0;
+    --primary: #4d6bfe;
+    --danger: #ff3333;
+    --success: #00ff00;
+    --border: #333;
+    --font-mono: 'Courier New', Courier, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-mono);
+    line-height: 1.5;
+    padding: 20px;
+}
+
+.hidden { display: none !important; }
+.error-text { color: var(--danger); font-size: 0.9em; margin-top: 10px; }
+
+/* LOGIN */
+.screen { display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+.login-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 30px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+.login-box h1 { margin-bottom: 10px; font-size: 1.2em; }
+.login-box p { margin-bottom: 20px; font-size: 0.9em; color: #888; }
+
+/* DASHBOARD */
+#dashboard-screen { max-width: 1200px; margin: 0 auto; display: block; }
+header { border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 20px; }
+.status-bar { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 10px; align-items: center; }
+.status-badge { padding: 4px 8px; border-radius: 4px; font-size: 0.8em; background: #333; }
+.status-badge.online { border: 1px solid var(--success); color: var(--success); }
+.status-badge.offline { border: 1px solid var(--danger); color: var(--danger); }
+.status-badge.syncing { border: 1px solid var(--primary); color: var(--primary); }
+
+main { display: grid; grid-template-columns: 300px 1fr; gap: 20px; }
+@media (max-width: 768px) { main { grid-template-columns: 1fr; } }
+
+/* FORMULARIO */
+.form-section, .table-section { background: var(--surface); border: 1px solid var(--border); padding: 20px; border-radius: 8px; }
+h2 { font-size: 1em; margin-bottom: 15px; color: var(--primary); }
+.input-group { margin-bottom: 15px; display: flex; flex-direction: column; }
+label { font-size: 0.85em; margin-bottom: 5px; color: #aaa; }
+
+input, button {
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 10px;
+    font-family: var(--font-mono);
+    border-radius: 4px;
+}
+input:focus { outline: none; border-color: var(--primary); }
+button { cursor: pointer; transition: background 0.2s; }
+button:hover { background: #2a2a2a; }
+button[type="submit"] { background: var(--primary); color: white; border: none; width: 100%; font-weight: bold; }
+button[type="submit"]:hover { background: #3a55d9; }
+#cancel-btn { background: var(--danger); color: white; border: none; width: 100%; margin-top: 10px; }
+
+/* TABLA */
+table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+th, td { text-align: left; padding: 10px; border-bottom: 1px solid var(--border); }
+th { color: #888; font-weight: normal; }
+tr:hover { background: #222; }
+.action-btn { padding: 4px 8px; font-size: 0.8em; margin-right: 5px; }
+.edit-btn { border: 1px solid var(--primary); color: var(--primary); }
+.delete-btn { border: 1px solid var(--danger); color: var(--danger); }
+
+/* MINI MONITOR */
+.monitor-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    grid-column: 1 / -1; /* Ocupa todo el ancho en la rejilla principal */
+}
+
+.monitor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.monitor-item {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+}
+
+.monitor-item .label {
+    font-size: 0.75em;
+    color: #888;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.monitor-item .value {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.status-green { color: var(--success); }
+.status-red { color: var(--danger); }
+.status-yellow { color: #ffcc00; }

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehículos API - Zero Trust</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+    <!-- PANTALLA DE LOGIN (API KEY) -->
+    <div id="login-screen" class="screen">
+        <div class="login-box">
+            <h1>🔒 Zero-Trust Auth</h1>
+            <p>Ingresa tu API Key para acceder al sistema.</p>
+            <input type="password" id="api-key-input" placeholder="super-secret-key-123456789" autocomplete="off">
+            <button id="login-btn">Autenticar</button>
+            <p id="login-error" class="error-text hidden">API Key inválida</p>
+        </div>
+    </div>
+
+    <!-- DASHBOARD PRINCIPAL -->
+    <div id="dashboard-screen" class="screen hidden">
+        <header>
+            <div class="status-bar">
+                <span id="connection-status" class="status-badge">Conectando...</span>
+                <button id="sync-btn" title="Forzar sincronización local">🔄 Sync</button>
+                <button id="logout-btn">Cerrar Sesión</button>
+            </div>
+            <h1>Gestión de Vehículos</h1>
+        </header>
+
+        <main>
+            <section class="form-section">
+                <h2>Registrar Vehículo</h2>
+                <form id="vehicle-form">
+                    <input type="hidden" id="vehicle-id">
+                    <div class="input-group">
+                        <label>Placa (Máx 12):</label>
+                        <input type="text" id="placaVeh" required maxlength="12">
+                    </div>
+                    <div class="input-group">
+                        <label>Marca:</label>
+                        <input type="text" id="marcaVeh" maxlength="25">
+                    </div>
+                    <div class="input-group">
+                        <label>Año:</label>
+                        <input type="number" id="anioFabVeh" min="1900" max="2100">
+                    </div>
+                    <div class="input-group">
+                        <label>Color:</label>
+                        <input type="text" id="color" maxlength="10">
+                    </div>
+                    <div class="input-group">
+                        <label>Propietario:</label>
+                        <input type="text" id="propietario" maxlength="50">
+                    </div>
+                    <button type="submit" id="submit-btn">Guardar Vehículo</button>
+                    <button type="button" id="cancel-btn" class="hidden">Cancelar Edición</button>
+                </form>
+            </section>
+
+            <section class="table-section">
+                <h2>Registros</h2>
+                <table id="vehicle-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Placa</th>
+                            <th>Marca</th>
+                            <th>Año</th>
+                            <th>Color</th>
+                            <th>Propietario</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <!-- Filas inyectadas por JS -->
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- MINI MONITOR -->
+            <section class="monitor-section">
+                <h2>System Monitor</h2>
+                <div class="monitor-grid">
+                    <div class="monitor-item">
+                        <span class="label">API Status</span>
+                        <span id="mon-api" class="value">Checking...</span>
+                    </div>
+                    <div class="monitor-item">
+                        <span class="label">Database</span>
+                        <span id="mon-db" class="value">Checking...</span>
+                    </div>
+                    <div class="monitor-item">
+                        <span class="label">Latency</span>
+                        <span id="mon-latency" class="value">--ms</span>
+                    </div>
+                    <div class="monitor-item">
+                        <span class="label">Pending Sync</span>
+                        <span id="mon-sync" class="value">--</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/app.js"></script>
+</body>
+</html>
