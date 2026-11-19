@@ -1,55 +1,74 @@
-# API REST — Gestión de Vehículos (Compartida)
+# API-Rest-Bun
 
-API REST en Node.js + Express + SQL Server (mssql) usando una tabla independiente (`vehiculo_api`) para no interferir con otros proyectos en la misma base de datos.
+A barebones, high-performance REST API boilerplate built entirely on native Bun APIs. 
 
-## 🚀 Puesta en marcha
+Designed for local-first execution, offline-capable setups, and strict zero-trust architectures. No middleware chains, no external database requirements out-of-the-box, no telemetry.
 
-1. **Instalar dependencias**
-   ```bash
-   npm install
+## Philosophy
+
+- **Local-first:** Data stays on the host. Uses `bun:sqlite` with WAL mode enabled for persistent local storage.
+- **Privacy-by-design:** Zero logging of PII. Stateless authentication primitives ready for E2EE integration.
+- **Minimal Attack Surface:** Relies on `URLPattern` for routing and native `Request`/`Response` objects. No Express, Fastify, or Hono bloat.
+- **Zero Telemetry:** Nothing phones home. No analytics, no error-tracking SDKs.
+
+## Stack
+
+- **Runtime:** Bun
+- **Routing:** Native `URLPattern` API
+- **Database:** `bun:sqlite`
+- **Validation:** Standard schema validation (Zod/Valibot optional, native `try/catch` preferred for zero-dep setups)
+
+## Prerequisites
+
+- [Bun](https://bun.sh) v1.1+
+
+## Setup
+
+```bash
+git clone https://github.com/frank-graves/API-Rest-Bun.git
+cd API-Rest-Bun
+bun install
 ```
 
-2. **Ejecutar el script SQL**
-Abre tu gestor de base de datos y ejecuta el script `crear_tabla.sql` para crear la tabla independiente.
-3. **Configurar variables de entorno**
-Asegúrate de que tu `.env` tenga las credenciales correctas.
-4. **Levantar el servidor**
+## Usage
 
-```
-npm run dev
+Start the development server with hot reloading:
+
+```bash
+bun run dev
 ```
 
-## 📡 Endpoints (CRUD)
+The API defaults to `http://localhost:3000`.
 
-| Método | Ruta | Descripción |
-|---|---|---|
-| GET | `/vehiculos` | Lista todos los vehículos |
-| GET | `/vehiculos/:id` | Obtiene un vehículo por su ID |
-| POST | `/vehiculos` | Inserta un nuevo vehículo |
-| PUT | `/vehiculos/:id` | Actualiza un vehículo existente |
-| DELETE | `/vehiculos/:id` | Elimina un vehículo por su ID |
+## Project Structure
 
-### Ejemplo — Insertar vehículo
-
-```
-POST /vehiculos
-{
-  "placaVeh": "ABC-123",
-  "marcaVeh": "Toyota",
-  "anioFabVeh": 2020,
-  "color": "Rojo",
-  "propietario": "Juan Perez"
-}
+```text
+src/
+├── index.ts       # Entry point, Bun.serve() initialization
+├── routes/        # URLPattern route definitions
+├── db/            # SQLite schema and migrations
+└── utils/         # Cryptographic primitives and helpers
 ```
 
-```sql
--- Script para crear la tabla independiente para tu API
-CREATE TABLE vehiculo_api (
-    id INT IDENTITY(1,1) PRIMARY KEY,
-    placaVeh CHAR(12) NULL,
-    marcaVeh VARCHAR(25) NULL,
-    anioFabVeh INT NULL,
-    color NCHAR(10) NULL,
-    propietario VARCHAR(50) NULL
-);
+## Security & Privacy
 
+- **CORS:** Strictly configured. Fails closed.
+- **Rate Limiting:** In-memory sliding window via native `Map` (or SQLite-backed for multi-instance setups).
+- **Data Minimization:** Endpoints return only explicitly requested fields.
+- **Headers:** Strips server signatures (`X-Powered-By`, `Server`, etc.).
+
+## Build / Deployment
+
+Compile to a single standalone executable or optimized JS bundle:
+
+```bash
+# Standalone executable (Linux/macOS)
+bun build ./src/index.ts --compile --outfile api-rest-bun
+
+# Optimized bundle
+bun build ./src/index.ts --target=bun --outdir=./dist --minify
+```
+
+## License
+
+Unlicense / MIT. Do whatever you want with it. No warranties.
